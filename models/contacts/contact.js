@@ -2,9 +2,9 @@ const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 const { handleValidationErrors } = require("../../middlewares");
 
-const nameRegexp = /^\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+$/;
-const phoneRegexp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/;
-const emailRegexp = /^.+@.+$/;
+// const nameRegexp = /^\b([A-ZÀ-ÿ][-,a-z. ']+[ ]*)+$/;
+// const phoneRegexp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/;
+// const emailRegexp = /^.+@.+$/;
 
 const contactSchema = new Schema(
   {
@@ -12,22 +12,22 @@ const contactSchema = new Schema(
       type: String,
       required: [true, "Set name for contact"],
       minlength: 3,
-      match: nameRegexp,
+      // match: nameRegexp,
       trim: true,
       unique: true,
     },
-    email: {
-      type: String,
-      trim: true,
-      match: emailRegexp,
-      required: [true, "Set email for contact"],
-    },
-    phone: {
+    // email: {
+    //   type: String,
+    //   trim: true,
+    //   // match: emailRegexp,
+    //   required: [true, "Set email for contact"],
+    // },
+    number: {
       type: String,
       required: true,
-      minlength: 10,
+      // minlength: 10,
       trim: true,
-      match: phoneRegexp,
+      // match: phoneRegexp,
     },
     favorite: {
       type: Boolean,
@@ -40,9 +40,9 @@ const contactSchema = new Schema(
 contactSchema.post("save", handleValidationErrors);
 
 const addSchema = Joi.object({
-  name: Joi.string().min(3).pattern(nameRegexp).trim().required(),
-  email: Joi.string().email().trim().pattern(emailRegexp).required(),
-  phone: Joi.string().min(10).pattern(phoneRegexp, "numbers").trim().required(),
+  name: Joi.string().min(3).trim().required(),
+  // email: Joi.string().email().trim().pattern(emailRegexp).required(),
+  number: Joi.string().trim().required(),
   favorite: Joi.bool(),
 });
 
